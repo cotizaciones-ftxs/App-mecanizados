@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mecanizados</title>
+  <style>
+    :root {
+      --bg: #eef2f6;
+      --panel: #ffffff;
+      --ink: #17202a;
+      --muted: #667085;
+      --line: #cfd7e3;
+      --blue: #0d63a5;
+      --blue-dark: #084a7c;
+      --shadow: 0 16px 38px rgba(23, 32, 42, .1);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      background: var(--bg);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .app {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    header {
+      display: grid;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 52px;
+      line-height: 1.05;
+      letter-spacing: 0;
+    }
+
+    .lead {
+      margin: 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    .menu {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .app-link {
+      display: grid;
+      gap: 8px;
+      min-height: 150px;
+      padding: 18px;
+      color: var(--ink);
+      text-decoration: none;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      align-content: center;
+    }
+
+    .app-link:hover {
+      border-color: var(--blue);
+    }
+
+    .app-name {
+      color: var(--blue);
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .app-desc {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    .open {
+      color: var(--blue-dark);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    @media (max-width: 640px) {
+      .app { padding: 16px; }
+      h1 { font-size: 38px; }
+      .menu { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header>
+      <h1>Mecanizados</h1>
+      <p class="lead">Selecciona la app que quieres usar.</p>
+    </header>
+
+    <section class="menu" aria-label="Aplicaciones disponibles">
+      <a class="app-link" href="premidoor-mecanizados.html">
+        <span class="app-name">Premidoor 76</span>
+        <p class="app-desc">Herrajes, palos ULIA/UREA y carretillas.</p>
+        <span class="open">Abrir app</span>
+      </a>
+
+      <a class="app-link" href="komerling-76-mecanizados.html">
+        <span class="app-name">Komerling 76</span>
+        <p class="app-desc">Puerta practicable, placa larga y agujas 28, 30, 35.</p>
+        <span class="open">Abrir app</span>
+      </a>
+
+      <a class="app-link" href="premiline-80-mecanizados.html">
+        <span class="app-name">Premiline 80</span>
+        <p class="app-desc">Triple chimenea para hoja 6041 en palo UUNA.</p>
+        <span class="open">Abrir app</span>
+      </a>
+    </section>
+  </main>
+</body>
+</html>

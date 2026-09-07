@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mecanizados Premiline 80</title>
+  <style>
+    :root {
+      --bg: #eef2f6;
+      --panel: #ffffff;
+      --ink: #17202a;
+      --muted: #667085;
+      --line: #cfd7e3;
+      --blue: #0d63a5;
+      --blue-dark: #084a7c;
+      --green: #147a43;
+      --shadow: 0 16px 38px rgba(23, 32, 42, .1);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      background: var(--bg);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    button, input, textarea { font: inherit; }
+
+    .app {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    header {
+      display: grid;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 56px;
+      line-height: 1.05;
+      letter-spacing: 0;
+    }
+
+    .lead {
+      margin: 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    .menu-link {
+      color: var(--blue);
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .menu-link:hover { color: var(--blue-dark); }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(300px, 430px) 1fr;
+      gap: 16px;
+      align-items: start;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    .panel-head {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 18px;
+      letter-spacing: 0;
+    }
+
+    .panel-body {
+      padding: 16px;
+      display: grid;
+      gap: 14px;
+    }
+
+    label {
+      display: grid;
+      gap: 7px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    input, textarea {
+      width: 100%;
+      border: 1px solid #bfc9d6;
+      border-radius: 6px;
+      padding: 10px;
+      color: var(--ink);
+      background: #fff;
+    }
+
+    input {
+      min-height: 44px;
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    input:focus, textarea:focus {
+      outline: 3px solid #afd7fb;
+      border-color: var(--blue);
+    }
+
+    .button-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .choice-btn, .btn {
+      border: 1px solid #bfc9d6;
+      border-radius: 7px;
+      min-height: 46px;
+      padding: 10px 12px;
+      color: var(--ink);
+      background: #fff;
+      cursor: pointer;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .choice-btn:hover, .btn:hover { background: #f4f7fa; }
+
+    .choice-btn.active {
+      color: #fff;
+      background: var(--blue);
+      border-color: var(--blue);
+    }
+
+    .btn.primary {
+      color: #fff;
+      background: var(--blue);
+      border-color: var(--blue);
+    }
+
+    .btn.primary:hover { background: var(--blue-dark); }
+
+    .answer {
+      display: grid;
+      gap: 10px;
+    }
+
+    .result-card {
+      border: 1px solid var(--line);
+      border-left: 5px solid var(--blue);
+      border-radius: 8px;
+      background: #fff;
+      padding: 13px 14px;
+    }
+
+    .code {
+      margin: 0;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: clamp(18px, 3vw, 27px);
+      font-weight: 700;
+      letter-spacing: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .copy-box {
+      width: 100%;
+      min-height: 190px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      background: #111827;
+      color: #e5edf7;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 15px;
+      line-height: 1.5;
+      white-space: pre;
+      overflow: auto;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      border-radius: 999px;
+      padding: 5px 9px;
+      background: #e7f2ff;
+      color: #084a7c;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .pill.green {
+      background: #e7f6ee;
+      color: var(--green);
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .status {
+      min-height: 20px;
+      color: var(--green);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .note {
+      border: 1px solid #f3a5a5;
+      border-left: 5px solid #c1121f;
+      border-radius: 8px;
+      padding: 12px;
+      background: #fff5f5;
+      color: #9b111e;
+      font-size: 14px;
+      line-height: 1.45;
+      font-weight: 700;
+    }
+
+    .note strong {
+      color: #7f0d18;
+    }
+
+    @media (max-width: 880px) {
+      .layout { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 560px) {
+      .app { padding: 14px; }
+      h1 { font-size: 36px; }
+      .button-grid { grid-template-columns: 1fr; }
+      .actions { display: grid; }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header>
+      <h1>Mecanizados Premiline 80</h1>
+      <p class="lead">Triple chimenea para hoja 6041 en palo UUNA. Los codigos salen ordenados de mayor a menor.</p>
+      <a class="menu-link" href="index.html">Volver al menu</a>
+    </header>
+
+    <div class="layout">
+      <section class="panel">
+        <div class="panel-head">
+          <h2>Seleccion</h2>
+        </div>
+        <div class="panel-body">
+          <label>Largo del retal mm
+            <input id="stickLength" type="number" min="0" step="0.1" value="671">
+          </label>
+
+          <div class="note">
+            Sustituir los codigos:<br>
+            <strong>W418</strong> -> Ruedas 360 kg<br>
+            <strong>W414</strong> -> Ruedas 180 kg<br>
+            por <strong>W416</strong>, mecanizado de triple chimenea.
+          </div>
+
+          <label>Mecanizado
+            <div class="button-grid">
+              <button class="choice-btn combo-btn active" type="button">Triple chimenea</button>
+            </div>
+          </label>
+
+          <div class="actions">
+            <button class="btn primary" id="copyBtn" type="button">Copiar respuesta</button>
+            <button class="btn" id="resetBtn" type="button">Reiniciar</button>
+          </div>
+          <div class="status" id="status"></div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <h2>Respuesta</h2>
+          <div class="pill-row">
+            <span class="pill" id="basePill">Hoja 6041 | UUNA</span>
+            <span class="pill green" id="countPill">0 codigos</span>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="answer" id="answer"></div>
+
+          <label>Codigos para copiar
+            <textarea class="copy-box" id="copyText" readonly></textarea>
+          </label>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    const tool = "W416";
+
+    const constants = {
+      needle: 7,
+      upperOffsets: [107, 142, 177],
+      lowerPositions: [177, 141, 107]
+    };
+
+    const els = {
+      stickLength: document.querySelector("#stickLength"),
+      answer: document.querySelector("#answer"),
+      copyText: document.querySelector("#copyText"),
+      basePill: document.querySelector("#basePill"),
+      countPill: document.querySelector("#countPill"),
+      status: document.querySelector("#status")
+    };
+
+    function mmCode(mm) {
+      return String(Math.max(0, Math.round(Number(mm || 0) * 10))).padStart(5, "0");
+    }
+
+    function code(tool, position, needle) {
+      return `${tool}/00/${mmCode(position)}/${mmCode(needle)}`;
+    }
+
+    function lengthValue() {
+      return Number(els.stickLength.value || 0);
+    }
+
+    function buildRows() {
+      const length = lengthValue();
+      const lower = constants.lowerPositions;
+      const upper = constants.upperOffsets.map(position => Math.max(0, length - position));
+      const positions = [...upper, ...lower].sort((a, b) => b - a);
+      return positions.map(position => ({
+        tool,
+        position,
+        code: code(tool, position, constants.needle)
+      }));
+    }
+
+    function render() {
+      const rows = buildRows();
+
+      els.basePill.textContent = `Hoja 6041 | UUNA | ${tool}`;
+      els.countPill.textContent = `${rows.length} codigos`;
+      els.answer.innerHTML = rows.map(row => `
+        <article class="result-card">
+          <p class="code">${escapeHtml(row.code)}</p>
+        </article>
+      `).join("");
+      els.copyText.value = rows.map(row => row.code).join("\n");
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "").replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      }[char]));
+    }
+
+    els.stickLength.addEventListener("input", render);
+    document.querySelector("#copyBtn").addEventListener("click", async () => {
+      await navigator.clipboard.writeText(els.copyText.value);
+      els.status.textContent = "Respuesta copiada.";
+      window.setTimeout(() => els.status.textContent = "", 1600);
+    });
+
+    document.querySelector("#resetBtn").addEventListener("click", () => {
+      els.stickLength.value = "671";
+      render();
+    });
+
+    render();
+  </script>
+</body>
+</html>

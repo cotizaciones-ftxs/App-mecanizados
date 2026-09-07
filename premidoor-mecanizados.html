@@ -1,0 +1,522 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mecanizados Premidoor 76</title>
+  <style>
+    :root {
+      --bg: #eef2f6;
+      --panel: #ffffff;
+      --ink: #17202a;
+      --muted: #667085;
+      --line: #cfd7e3;
+      --blue: #0d63a5;
+      --blue-dark: #084a7c;
+      --green: #147a43;
+      --shadow: 0 16px 38px rgba(23, 32, 42, .1);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      background: var(--bg);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    button, input, textarea { font: inherit; }
+
+    .app {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    header {
+      display: grid;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 56px;
+      line-height: 1.05;
+      letter-spacing: 0;
+    }
+
+    .lead {
+      margin: 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    .menu-link {
+      color: var(--blue);
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .menu-link:hover {
+      color: var(--blue-dark);
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(300px, 430px) 1fr;
+      gap: 16px;
+      align-items: start;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    .panel-head {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 18px;
+      letter-spacing: 0;
+    }
+
+    .panel-body {
+      padding: 16px;
+      display: grid;
+      gap: 14px;
+    }
+
+    label {
+      display: grid;
+      gap: 7px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    input, textarea {
+      width: 100%;
+      border: 1px solid #bfc9d6;
+      border-radius: 6px;
+      padding: 10px;
+      color: var(--ink);
+      background: #fff;
+    }
+
+    input {
+      min-height: 44px;
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    input:focus, textarea:focus {
+      outline: 3px solid #afd7fb;
+      border-color: var(--blue);
+    }
+
+    .button-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .choice-group {
+      display: grid;
+      gap: 8px;
+    }
+
+    .choice-title {
+      color: var(--ink);
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: none;
+    }
+
+    .choice-btn, .btn {
+      border: 1px solid #bfc9d6;
+      border-radius: 7px;
+      min-height: 46px;
+      padding: 10px 12px;
+      color: var(--ink);
+      background: #fff;
+      cursor: pointer;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .choice-btn:hover, .btn:hover {
+      background: #f4f7fa;
+    }
+
+    .choice-btn.active {
+      color: #fff;
+      background: var(--blue);
+      border-color: var(--blue);
+    }
+
+    .btn.primary {
+      color: #fff;
+      background: var(--blue);
+      border-color: var(--blue);
+    }
+
+    .btn.primary:hover {
+      background: var(--blue-dark);
+    }
+
+    .answer {
+      display: grid;
+      gap: 10px;
+    }
+
+    .result-card {
+      border: 1px solid var(--line);
+      border-left: 5px solid var(--blue);
+      border-radius: 8px;
+      background: #fff;
+      padding: 13px 14px;
+    }
+
+    .code {
+      margin: 0;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: clamp(18px, 3vw, 27px);
+      font-weight: 700;
+      letter-spacing: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .copy-box {
+      width: 100%;
+      min-height: 190px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      background: #111827;
+      color: #e5edf7;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 15px;
+      line-height: 1.5;
+      white-space: pre;
+      overflow: auto;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      border-radius: 999px;
+      padding: 5px 9px;
+      background: #e7f2ff;
+      color: #084a7c;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .pill.green {
+      background: #e7f6ee;
+      color: var(--green);
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .status {
+      min-height: 20px;
+      color: var(--green);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    @media (max-width: 880px) {
+      .layout { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 560px) {
+      .app { padding: 14px; }
+      h1 { font-size: 36px; }
+      .button-grid { grid-template-columns: 1fr; }
+      .actions { display: grid; }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header>
+      <h1>Mecanizados Premidoor 76</h1>
+      <p class="lead">Pon el largo, selecciona el palo y el herraje. La respuesta sale solo con codigos.</p>
+      <a class="menu-link" href="index.html">Volver al menu</a>
+    </header>
+
+    <div class="layout">
+      <section class="panel">
+        <div class="panel-head">
+          <h2>Seleccion</h2>
+        </div>
+        <div class="panel-body">
+          <label>Largo del perfil mm
+            <input id="stickLength" type="number" min="0" step="0.1" value="2500">
+          </label>
+
+          <label>Palo
+            <div class="button-grid">
+              <button class="choice-btn stick-btn" type="button" data-stick="ULIA">ULIA izquierdo</button>
+              <button class="choice-btn stick-btn" type="button" data-stick="UREA">UREA derecho</button>
+            </div>
+          </label>
+
+          <label>Herraje
+            <div class="choice-group">
+              <div class="choice-title">Vertical</div>
+              <div class="button-grid">
+                <button class="choice-btn hardware-btn" type="button" data-stick="VERTICAL" data-combo="MANILLA_INT,TORNILLOS,CREMONA">Manilla interior</button>
+                <button class="choice-btn hardware-btn" type="button" data-stick="VERTICAL" data-combo="MANILLA_EXT,TORNILLOS,CREMONA">Manilla exterior</button>
+                <button class="choice-btn hardware-btn" type="button" data-stick="VERTICAL" data-combo="MANILLA_INT,MANILLA_EXT,TORNILLOS,CREMONA">Man + man</button>
+                <button class="choice-btn hardware-btn" type="button" data-stick="VERTICAL" data-combo="MANILLA_INT,UNERO_EXT,UNERO_AGUJEROS,TORNILLOS,CREMONA">Man + unero</button>
+                <button class="choice-btn hardware-btn" type="button" data-stick="VERTICAL" data-combo="UNERO_EXT,UNERO_AGUJEROS">Unero exterior</button>
+              </div>
+              <div class="choice-title">Carretillas</div>
+              <div class="button-grid">
+                <button class="choice-btn hardware-btn" type="button" data-stick="UUNA" data-combo="CARRETILLA">Simple</button>
+                <button class="choice-btn hardware-btn" type="button" data-stick="UUNA" data-combo="CARRETILLA_DOBLE">Doble</button>
+              </div>
+            </div>
+          </label>
+
+          <div class="actions">
+            <button class="btn primary" id="copyBtn" type="button">Copiar respuesta</button>
+            <button class="btn" id="resetBtn" type="button">Reiniciar</button>
+          </div>
+          <div class="status" id="status"></div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <h2>Respuesta</h2>
+          <div class="pill-row">
+            <span class="pill" id="basePill">Base 1002 mm</span>
+            <span class="pill green" id="countPill">0 codigos</span>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="answer" id="answer"></div>
+
+          <label>Codigos para copiar
+            <textarea class="copy-box" id="copyText" readonly></textarea>
+          </label>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    const state = {
+      stick: "ULIA",
+      verticalStick: "ULIA",
+      combo: ["MANILLA_INT", "TORNILLOS", "CREMONA"],
+      lastHardware: "MANILLA_INT,TORNILLOS,CREMONA"
+    };
+
+    const els = {
+      stickLength: document.querySelector("#stickLength"),
+      answer: document.querySelector("#answer"),
+      copyText: document.querySelector("#copyText"),
+      basePill: document.querySelector("#basePill"),
+      countPill: document.querySelector("#countPill"),
+      status: document.querySelector("#status"),
+      stickButtons: [...document.querySelectorAll(".stick-btn")],
+      hardwareButtons: [...document.querySelectorAll(".hardware-btn")]
+    };
+
+    const constants = {
+      handleBase: 1002,
+      screwOffset: 40,
+      handleNeedle: 37.5,
+      wheelOffset: 228,
+      secondWheelOffset: 576
+    };
+
+    function mmCode(mm) {
+      return String(Math.max(0, Math.round(Number(mm || 0) * 10))).padStart(5, "0");
+    }
+
+    function code(tool, position, needle) {
+      return `${tool}/00/${mmCode(position)}/${mmCode(needle)}`;
+    }
+
+    function lengthValue() {
+      return Number(els.stickLength.value || 0);
+    }
+
+    function basePosition() {
+      if (state.stick === "UREA") return Math.max(0, lengthValue() - constants.handleBase);
+      if (state.stick === "ULIA") return constants.handleBase;
+      return null;
+    }
+
+    function add(rows, group, tool, position, needle) {
+      rows.push({ group, tool, position, needle, code: code(tool, position, needle) });
+    }
+
+    function buildAllRows() {
+      const rows = [];
+      const length = lengthValue();
+
+      if (state.stick === "UUNA") {
+        add(rows, "CARRETILLA", "W420", constants.wheelOffset, 0);
+        add(rows, "CARRETILLA", "W420", Math.max(0, length - constants.wheelOffset), 0);
+        add(rows, "CARRETILLA_DOBLE", "W420", constants.wheelOffset, 0);
+        add(rows, "CARRETILLA_DOBLE", "W420", constants.secondWheelOffset, 0);
+        add(rows, "CARRETILLA_DOBLE", "W420", Math.max(0, length - constants.wheelOffset), 0);
+        add(rows, "CARRETILLA_DOBLE", "W420", Math.max(0, length - constants.secondWheelOffset), 0);
+        return rows;
+      }
+
+      const base = basePosition();
+      const minus = Math.max(0, base - constants.screwOffset);
+      const plus = base + constants.screwOffset;
+      const firstScrew = state.stick === "UREA" ? plus : minus;
+      const secondScrew = state.stick === "UREA" ? minus : plus;
+
+      add(rows, "TORNILLOS", "W826", firstScrew, constants.handleNeedle);
+      add(rows, "TORNILLOS", "W826", secondScrew, constants.handleNeedle);
+      add(rows, "TORNILLOS", "W824", firstScrew, constants.handleNeedle);
+      add(rows, "TORNILLOS", "W824", secondScrew, constants.handleNeedle);
+      add(rows, "MANILLA_INT", "W802", base, constants.handleNeedle);
+      add(rows, "MANILLA_EXT", "W800", base, constants.handleNeedle);
+      add(rows, "CREMONA", "W454", base, 0);
+      add(rows, "UNERO_EXT", "W432", base, constants.handleNeedle);
+      add(rows, "UNERO_AGUJEROS", "W424", base, constants.handleNeedle);
+
+      return rows;
+    }
+
+    function selectedRows() {
+      const groups = new Set(state.combo);
+      const rows = buildAllRows().filter(row => groups.has(row.group));
+      if (state.stick === "UUNA") {
+        return rows.sort((a, b) => b.position - a.position);
+      }
+      return rows;
+    }
+
+    function setCombo(comboText) {
+      state.combo = comboText.split(",").filter(Boolean);
+      state.lastHardware = comboText;
+    }
+
+    function setStick(stick) {
+      state.stick = stick;
+      if (stick !== "UUNA") state.verticalStick = stick;
+      if (stick === "UUNA") setCombo("CARRETILLA");
+      if (stick !== "UUNA" && state.combo.includes("CARRETILLA")) setCombo("MANILLA_INT,TORNILLOS,CREMONA");
+    }
+
+    function setHardware(button) {
+      const stick = button.dataset.stick;
+      if (stick === "VERTICAL") state.stick = state.verticalStick;
+      if (stick && stick !== "KEEP" && stick !== "VERTICAL") state.stick = stick;
+      if (button.dataset.combo) setCombo(button.dataset.combo);
+    }
+
+    function updateButtons() {
+      els.stickButtons.forEach(button => {
+        button.classList.toggle("active", button.dataset.stick === state.verticalStick);
+      });
+      els.hardwareButtons.forEach(button => {
+        button.classList.toggle("active", button.dataset.combo === state.lastHardware);
+      });
+    }
+
+    function baseText() {
+      if (state.combo.includes("CARRETILLA_DOBLE")) return `Inferior ${constants.wheelOffset} y ${constants.secondWheelOffset} mm`;
+      if (state.stick === "UUNA") return `Inferior ${constants.wheelOffset} mm`;
+      if (state.stick === "UREA") return `UREA derecho ${lengthValue()} - ${constants.handleBase} = ${basePosition()} mm`;
+      return `ULIA izquierdo ${basePosition()} mm`;
+    }
+
+    function render() {
+      const rows = selectedRows();
+      updateButtons();
+
+      els.basePill.textContent = baseText();
+      els.countPill.textContent = `${rows.length} ${rows.length === 1 ? "codigo" : "codigos"}`;
+
+      els.answer.innerHTML = rows.map(row => `
+        <article class="result-card">
+          <p class="code">${escapeHtml(row.code)}</p>
+        </article>
+      `).join("");
+
+      els.copyText.value = rows.map(row => row.code).join("\n");
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "").replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      }[char]));
+    }
+
+    els.stickLength.addEventListener("input", render);
+    els.stickButtons.forEach(button => {
+      button.addEventListener("click", () => {
+        setStick(button.dataset.stick);
+        render();
+      });
+    });
+
+    els.hardwareButtons.forEach(button => {
+      button.addEventListener("click", () => {
+        setHardware(button);
+        render();
+      });
+    });
+
+    document.querySelector("#copyBtn").addEventListener("click", async () => {
+      await navigator.clipboard.writeText(els.copyText.value);
+      els.status.textContent = "Respuesta copiada.";
+      window.setTimeout(() => els.status.textContent = "", 1600);
+    });
+
+    document.querySelector("#resetBtn").addEventListener("click", () => {
+      els.stickLength.value = "2500";
+      state.stick = "ULIA";
+      state.verticalStick = "ULIA";
+      setCombo("MANILLA_INT,TORNILLOS,CREMONA");
+      render();
+    });
+
+    render();
+  </script>
+</body>
+</html>
