@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ventanas de presión | Mecanizados</title>
+  <style>
+    :root { --bg:#eef2f6; --panel:#fff; --ink:#17202a; --muted:#667085; --line:#cfd7e3; --blue:#0d63a5; --blue-dark:#084a7c; --green:#147a43; --shadow:0 16px 38px rgba(23,32,42,.1); }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; color:var(--ink); background:var(--bg); font-family:Arial,Helvetica,sans-serif; }
+    button,input { font:inherit; }
+    .app { max-width:900px; margin:0 auto; padding:24px; }
+    header { display:grid; gap:7px; margin-bottom:18px; }
+    h1 { margin:0; font-size:clamp(36px,6vw,56px); line-height:1.05; }
+    .lead { margin:0; color:var(--muted); line-height:1.4; }
+    .menu-link { color:var(--blue); font-size:14px; font-weight:700; text-decoration:none; }
+    .layout { display:grid; grid-template-columns:minmax(280px,390px) 1fr; gap:16px; align-items:start; }
+    .panel { background:var(--panel); border:1px solid var(--line); border-radius:8px; box-shadow:var(--shadow); }
+    .panel-head { padding:14px 16px; border-bottom:1px solid var(--line); }
+    h2 { margin:0; font-size:18px; }
+    .panel-body { padding:16px; display:grid; gap:14px; }
+    label { display:grid; gap:7px; color:var(--muted); font-size:12px; font-weight:700; text-transform:uppercase; }
+    input { width:100%; min-height:44px; padding:10px; color:var(--ink); background:#fff; border:1px solid #bfc9d6; border-radius:6px; font-size:20px; font-weight:700; }
+    input:focus { outline:3px solid #afd7fb; border-color:var(--blue); }
+    .choice-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
+    .choice-btn,.btn { min-height:56px; padding:10px; color:var(--ink); background:#fff; border:1px solid #bfc9d6; border-radius:7px; cursor:pointer; font-weight:700; text-align:left; }
+    .choice-btn:hover,.btn:hover { background:#f4f7fa; }
+    .choice-btn.active,.btn.primary { color:#fff; background:var(--blue); border-color:var(--blue); }
+    .btn.primary:hover { background:var(--blue-dark); }
+    .choice-code { display:block; font-size:19px; }
+    .choice-desc { display:block; margin-top:3px; font-size:12px; font-weight:400; line-height:1.25; }
+    .actions { display:flex; flex-wrap:wrap; gap:8px; }
+    .status { min-height:20px; color:var(--green); font-size:13px; font-weight:700; }
+    .result-card { display:grid; gap:5px; padding:13px 14px; background:#fff; border:1px solid var(--line); border-left:5px solid var(--blue); border-radius:8px; }
+    .code { margin:0; font-family:Consolas,"Courier New",monospace; font-size:25px; font-weight:700; }
+    .operation { margin:0; color:var(--muted); font-size:14px; }
+    .copy-box { width:100%; min-height:170px; padding:12px; resize:vertical; color:#e5edf7; background:#111827; border:1px solid var(--line); border-radius:8px; font:15px/1.5 Consolas,"Courier New",monospace; white-space:pre; }
+    .pill { display:inline-flex; width:max-content; padding:5px 9px; color:#084a7c; background:#e7f2ff; border-radius:999px; font-size:12px; font-weight:700; }
+    .note { margin:0; color:var(--muted); font-size:13px; line-height:1.45; }
+    @media (max-width:720px) { .app{padding:16px}.layout{grid-template-columns:1fr} }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header>
+      <h1>Ventanas de presión</h1>
+      <p class="lead">Indica la medida, la cara de manilla y el cajeado de cremona.</p>
+      <a class="menu-link" href="index.html">Volver al menú</a>
+    </header>
+    <div class="layout">
+      <section class="panel">
+        <div class="panel-head"><h2>Selección</h2></div>
+        <div class="panel-body">
+          <label>Medida del mecanizado en mm
+            <input id="machiningMeasure" type="number" min="0" step="0.1" value="0">
+          </label>
+          <div class="note">Todos los mecanizados elegidos se aplican a la misma medida.</div>
+          <div class="note"><strong>Manilla</strong></div>
+          <div class="choice-grid" aria-label="Cara de manilla">
+            <button class="choice-btn handle-btn" type="button" data-handle="INTERIOR"><span class="choice-code">502</span><span class="choice-desc">Manilla interior</span></button>
+            <button class="choice-btn handle-btn" type="button" data-handle="EXTERIOR"><span class="choice-code">500</span><span class="choice-desc">Manilla exterior</span></button>
+            <button class="choice-btn handle-btn active" type="button" data-handle="AMBAS"><span class="choice-code">500 + 502</span><span class="choice-desc">Manilla en ambas caras</span></button>
+          </div>
+          <div class="note"><strong>Cajeado de cremona</strong></div>
+          <div class="choice-grid" aria-label="Cajeado de cremona">
+            <button class="choice-btn cajeado-btn active" type="button" data-code="700" data-operation="Cajeado de cremona: canal de herraje 12 x 65 mm"><span class="choice-code">700</span><span class="choice-desc">Cajeado 12 x 65 mm</span></button>
+            <button class="choice-btn cajeado-btn" type="button" data-code="702" data-operation="Cajeado de cremona: canal de herraje 12 x 88 mm"><span class="choice-code">702</span><span class="choice-desc">Cajeado 12 x 88 mm</span></button>
+          </div>
+          <div class="actions">
+            <button class="btn primary" id="copyBtn" type="button">Copiar respuesta</button>
+            <button class="btn" id="resetBtn" type="button">Reiniciar</button>
+          </div>
+          <div class="status" id="status"></div>
+        </div>
+      </section>
+      <section class="panel">
+        <div class="panel-head"><h2>Respuesta</h2></div>
+        <div class="panel-body">
+          <span class="pill" id="countPill">0 códigos</span>
+          <div id="answer"></div>
+          <label class="note" for="copyText">Códigos para copiar</label>
+          <textarea class="copy-box" id="copyText" readonly></textarea>
+          <p class="note">500 y 502 llevan aguja 15. El cajeado de cremona (700 o 702) lleva aguja 0. Por defecto se generan las tres operaciones para completar los casos que el programa deja sin herraje.</p>
+        </div>
+      </section>
+    </div>
+  </main>
+  <script>
+    const state = { handle: 'AMBAS', cajeado: '700' };
+    const measure = document.querySelector('#machiningMeasure');
+    const cajeadoButtons = [...document.querySelectorAll('.cajeado-btn')];
+    const handleButtons = [...document.querySelectorAll('.handle-btn')];
+    const answer = document.querySelector('#answer');
+    const copyText = document.querySelector('#copyText');
+    const countPill = document.querySelector('#countPill');
+    const status = document.querySelector('#status');
+    function mmCode(mm) {
+      return String(Math.max(0, Math.round(Number(mm || 0) * 10))).padStart(5, '0');
+    }
+    function machineCode(tool, needle) {
+      return `W${tool}/00/${mmCode(measure.value)}/${mmCode(needle)}`;
+    }
+    function render() {
+      const cajeado = cajeadoButtons.find(button => button.dataset.code === state.cajeado);
+      const rows = [];
+      if (state.handle === 'EXTERIOR' || state.handle === 'AMBAS') rows.push({ tool: '500', needle: 15, operation: 'Perforación de manilla exterior' });
+      if (state.handle === 'INTERIOR' || state.handle === 'AMBAS') rows.push({ tool: '502', needle: 15, operation: 'Perforación de manilla interior' });
+      rows.push({ tool: cajeado.dataset.code, needle: 0, operation: cajeado.dataset.operation });
+      rows.forEach(row => row.code = machineCode(row.tool, row.needle));
+      cajeadoButtons.forEach(button => button.classList.toggle('active', button.dataset.code === state.cajeado));
+      handleButtons.forEach(button => button.classList.toggle('active', button.dataset.handle === state.handle));
+      countPill.textContent = `${rows.length} ${rows.length === 1 ? 'código' : 'códigos'}`;
+      answer.innerHTML = rows.map(row => `<article class="result-card"><p class="code">${row.code}</p><p class="operation">${row.operation}</p></article>`).join('');
+      copyText.value = rows.map(row => row.code).join('\n');
+    }
+    measure.addEventListener('input', render);
+    cajeadoButtons.forEach(button => button.addEventListener('click', () => { state.cajeado = button.dataset.code; render(); }));
+    handleButtons.forEach(button => button.addEventListener('click', () => { state.handle = button.dataset.handle; render(); }));
+    document.querySelector('#copyBtn').addEventListener('click', async () => { await navigator.clipboard.writeText(copyText.value); status.textContent = 'Respuesta copiada.'; window.setTimeout(() => status.textContent = '', 1600); });
+    document.querySelector('#resetBtn').addEventListener('click', () => { measure.value = '0'; state.handle = 'AMBAS'; state.cajeado = '700'; render(); });
+    render();
+  </script>
+</body>
+</html>
