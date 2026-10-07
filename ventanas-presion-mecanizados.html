@@ -44,27 +44,23 @@
   <main class="app">
     <header>
       <h1>Ventanas de presión</h1>
-      <p class="lead">Indica la medida, la cara de manilla y el cajeado de cremona.</p>
+      <p class="lead">Indica el palo y la distancia para obtener los mecanizados de manilla.</p>
       <a class="menu-link" href="index.html">Volver al menú</a>
     </header>
     <div class="layout">
       <section class="panel">
         <div class="panel-head"><h2>Selección</h2></div>
         <div class="panel-body">
-          <label>Medida del mecanizado en mm
+          <label>Largo total del palo en mm
+            <input id="totalLength" type="number" min="0" step="0.1" value="0">
+          </label>
+          <label>Medida desde el extremo en mm
             <input id="machiningMeasure" type="number" min="0" step="0.1" value="0">
           </label>
-          <div class="note">Todos los mecanizados elegidos se aplican a la misma medida.</div>
-          <div class="note"><strong>Manilla</strong></div>
-          <div class="choice-grid" aria-label="Cara de manilla">
-            <button class="choice-btn handle-btn" type="button" data-handle="INTERIOR"><span class="choice-code">502</span><span class="choice-desc">Manilla interior</span></button>
-            <button class="choice-btn handle-btn" type="button" data-handle="EXTERIOR"><span class="choice-code">500</span><span class="choice-desc">Manilla exterior</span></button>
-            <button class="choice-btn handle-btn active" type="button" data-handle="AMBAS"><span class="choice-code">500 + 502</span><span class="choice-desc">Manilla en ambas caras</span></button>
-          </div>
-          <div class="note"><strong>Cajeado de cremona</strong></div>
-          <div class="choice-grid" aria-label="Cajeado de cremona">
-            <button class="choice-btn cajeado-btn active" type="button" data-code="700" data-operation="Cajeado de cremona: canal de herraje 12 x 65 mm"><span class="choice-code">700</span><span class="choice-desc">Cajeado 12 x 65 mm</span></button>
-            <button class="choice-btn cajeado-btn" type="button" data-code="702" data-operation="Cajeado de cremona: canal de herraje 12 x 88 mm"><span class="choice-code">702</span><span class="choice-desc">Cajeado 12 x 88 mm</span></button>
+          <div class="note"><strong>¿En cuál palo se mecaniza?</strong></div>
+          <div class="choice-grid" aria-label="Palo de la ventana">
+            <button class="choice-btn stick-btn active" type="button" data-stick="IZQUIERDO"><span class="choice-code">Palo izquierdo</span><span class="choice-desc">La medida se toma desde 0 hacia adelante.</span></button>
+            <button class="choice-btn stick-btn" type="button" data-stick="DERECHO"><span class="choice-code">Palo derecho</span><span class="choice-desc">Se resta la medida al largo total del palo.</span></button>
           </div>
           <div class="actions">
             <button class="btn primary" id="copyBtn" type="button">Copiar respuesta</button>
@@ -80,16 +76,16 @@
           <div id="answer"></div>
           <label class="note" for="copyText">Códigos para copiar</label>
           <textarea class="copy-box" id="copyText" readonly></textarea>
-          <p class="note">500 y 502 llevan aguja 15. El cajeado de cremona (700 o 702) lleva aguja 0. Por defecto se generan las tres operaciones para completar los casos que el programa deja sin herraje.</p>
+          <p class="note">Se generan siempre el 502 para manilla interior, con aguja 15, y el 700 para el cajeado de cremona, con aguja 0. En el palo izquierdo la posición es la medida indicada; en el derecho es largo total menos la medida indicada.</p>
         </div>
       </section>
     </div>
   </main>
   <script>
-    const state = { handle: 'AMBAS', cajeado: '700' };
+    const state = { stick: 'IZQUIERDO' };
+    const totalLength = document.querySelector('#totalLength');
     const measure = document.querySelector('#machiningMeasure');
-    const cajeadoButtons = [...document.querySelectorAll('.cajeado-btn')];
-    const handleButtons = [...document.querySelectorAll('.handle-btn')];
+    const stickButtons = [...document.querySelectorAll('.stick-btn')];
     const answer = document.querySelector('#answer');
     const copyText = document.querySelector('#copyText');
     const countPill = document.querySelector('#countPill');
@@ -97,27 +93,30 @@
     function mmCode(mm) {
       return String(Math.max(0, Math.round(Number(mm || 0) * 10))).padStart(5, '0');
     }
+    function machiningPosition() {
+      const distance = Number(measure.value || 0);
+      if (state.stick === 'DERECHO') return Math.max(0, Number(totalLength.value || 0) - distance);
+      return distance;
+    }
     function machineCode(tool, needle) {
-      return `W${tool}/00/${mmCode(measure.value)}/${mmCode(needle)}`;
+      return `W${tool}/00/${mmCode(machiningPosition())}/${mmCode(needle)}`;
     }
     function render() {
-      const cajeado = cajeadoButtons.find(button => button.dataset.code === state.cajeado);
-      const rows = [];
-      if (state.handle === 'EXTERIOR' || state.handle === 'AMBAS') rows.push({ tool: '500', needle: 15, operation: 'Perforación de manilla exterior' });
-      if (state.handle === 'INTERIOR' || state.handle === 'AMBAS') rows.push({ tool: '502', needle: 15, operation: 'Perforación de manilla interior' });
-      rows.push({ tool: cajeado.dataset.code, needle: 0, operation: cajeado.dataset.operation });
+      const rows = [
+        { tool: '502', needle: 15, operation: 'Perforación de manilla interior' },
+        { tool: '700', needle: 0, operation: 'Cajeado de cremona: canal de herraje 12 x 65 mm' }
+      ];
       rows.forEach(row => row.code = machineCode(row.tool, row.needle));
-      cajeadoButtons.forEach(button => button.classList.toggle('active', button.dataset.code === state.cajeado));
-      handleButtons.forEach(button => button.classList.toggle('active', button.dataset.handle === state.handle));
+      stickButtons.forEach(button => button.classList.toggle('active', button.dataset.stick === state.stick));
       countPill.textContent = `${rows.length} ${rows.length === 1 ? 'código' : 'códigos'}`;
       answer.innerHTML = rows.map(row => `<article class="result-card"><p class="code">${row.code}</p><p class="operation">${row.operation}</p></article>`).join('');
       copyText.value = rows.map(row => row.code).join('\n');
     }
+    totalLength.addEventListener('input', render);
     measure.addEventListener('input', render);
-    cajeadoButtons.forEach(button => button.addEventListener('click', () => { state.cajeado = button.dataset.code; render(); }));
-    handleButtons.forEach(button => button.addEventListener('click', () => { state.handle = button.dataset.handle; render(); }));
+    stickButtons.forEach(button => button.addEventListener('click', () => { state.stick = button.dataset.stick; render(); }));
     document.querySelector('#copyBtn').addEventListener('click', async () => { await navigator.clipboard.writeText(copyText.value); status.textContent = 'Respuesta copiada.'; window.setTimeout(() => status.textContent = '', 1600); });
-    document.querySelector('#resetBtn').addEventListener('click', () => { measure.value = '0'; state.handle = 'AMBAS'; state.cajeado = '700'; render(); });
+    document.querySelector('#resetBtn').addEventListener('click', () => { totalLength.value = '0'; measure.value = '0'; state.stick = 'IZQUIERDO'; render(); });
     render();
   </script>
 </body>
