@@ -356,6 +356,7 @@
 
     const constants = {
       handleBase: 1002,
+      rightHandleBase: 999,
       screwOffset: 40,
       handleNeedle: 37.5,
       wheelOffset: 228,
@@ -375,7 +376,7 @@
     }
 
     function basePosition() {
-      if (state.stick === "UREA") return Math.max(0, lengthValue() - constants.handleBase);
+      if (state.stick === "UREA") return Math.max(0, lengthValue() - constants.rightHandleBase);
       if (state.stick === "ULIA") return constants.handleBase;
       return null;
     }
@@ -457,7 +458,7 @@
     function baseText() {
       if (state.combo.includes("CARRETILLA_DOBLE")) return `Inferior ${constants.wheelOffset} y ${constants.secondWheelOffset} mm`;
       if (state.stick === "UUNA") return `Inferior ${constants.wheelOffset} mm`;
-      if (state.stick === "UREA") return `UREA derecho ${lengthValue()} - ${constants.handleBase} = ${basePosition()} mm`;
+      if (state.stick === "UREA") return `UREA derecho ${lengthValue()} - ${constants.rightHandleBase} = ${basePosition()} mm`;
       return `ULIA izquierdo ${basePosition()} mm`;
     }
 
