@@ -56,10 +56,13 @@
           <label>Largo del perfil mm
             <input id="totalLength" type="number" min="0" step="0.1" value="2500">
           </label>
+          <label>Altura del mecanizado en mm
+            <input id="machiningMeasure" type="number" min="0" step="0.1" value="0">
+          </label>
           <label>Palo
             <div class="button-grid" aria-label="Palo de la ventana">
-              <button class="choice-btn stick-btn active" type="button" data-stick="IZQUIERDO">Palo izquierdo</button>
-              <button class="choice-btn stick-btn" type="button" data-stick="DERECHO">Palo derecho</button>
+              <button class="choice-btn stick-btn active" type="button" data-stick="IZQUIERDO">ULIA izquierdo</button>
+              <button class="choice-btn stick-btn" type="button" data-stick="DERECHO">UREA derecho</button>
             </div>
           </label>
           <label>Herraje
@@ -77,9 +80,6 @@
               </div>
             </div>
           </label>
-          <label>Altura del mecanizado en mm
-            <input id="machiningMeasure" type="number" min="0" step="0.1" value="0">
-          </label>
           <div class="actions">
             <button class="btn primary" id="copyBtn" type="button">Copiar respuesta</button>
             <button class="btn" id="resetBtn" type="button">Reiniciar</button>
@@ -88,7 +88,7 @@
         </div>
       </section>
       <section class="panel">
-        <div class="panel-head"><h2>Respuesta</h2><div class="pill-row"><span class="pill" id="basePill">Palo izquierdo 0 mm</span><span class="pill green" id="countPill">0 códigos</span></div></div>
+        <div class="panel-head"><h2>Respuesta</h2><div class="pill-row"><span class="pill" id="basePill">ULIA izquierdo 0 mm</span><span class="pill green" id="countPill">0 códigos</span></div></div>
         <div class="panel-body">
           <div class="answer" id="answer"></div>
           <label for="copyText">Códigos para copiar
@@ -119,8 +119,8 @@
     }
     function positionText() {
       const position = machiningPosition();
-      if (state.stick === 'DERECHO') return `Palo derecho ${totalLength.value || 0} - ${measure.value || 0} = ${position} mm`;
-      return `Palo izquierdo ${position} mm`;
+      if (state.stick === 'DERECHO') return `UREA derecho ${totalLength.value || 0} - ${measure.value || 0} = ${position} mm`;
+      return `ULIA izquierdo ${position} mm`;
     }
     function machineCode(tool, needle) {
       return `W${tool}/00/${mmCode(machiningPosition())}/${mmCode(needle)}`;
